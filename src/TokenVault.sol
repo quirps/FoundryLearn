@@ -27,12 +27,12 @@ contract TokenVault {
         _transferEth(msg.sender, amount); // Uses the optimized internal transfer
     }
     // In src/TokenVault.sol
-function withdrawUnoptimized(uint256 amount) public {
-    require(balances[msg.sender] >= amount, "Insufficient balance");
-    balances[msg.sender] -= amount;
-    totalValue -= amount;
-    // Less gas-efficient way (e.g., using transfer, which forwards a fixed amount of gas)
-    // The previous 'withdrawOptimized' uses call, which is typically cheaper for simple transfers
-    payable(msg.sender).transfer(amount); 
-}
+    function withdrawUnoptimized(uint256 amount) public {
+        require(balances[msg.sender] >= amount, "Insufficient balance");
+        balances[msg.sender] -= amount;
+        totalValue -= amount;
+        // Less gas-efficient way (e.g., using transfer, which forwards a fixed amount of gas)
+        // The previous 'withdrawOptimized' uses call, which is typically cheaper for simple transfers
+        payable(msg.sender).transfer(amount);
+    }
 }
