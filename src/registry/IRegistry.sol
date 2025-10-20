@@ -3,7 +3,6 @@ pragma solidity ^0.8.0;
 
 import "../deploy/IDiamondDeploy.sol";
 import "../facets/Diamond/IDiamondCut.sol";
-import "../exchangeFinal/interfaces/ITicketExchange.sol";
 
 interface IEcosystemRegistry  { // Assuming iOwnership is an interface
     // Structs
@@ -36,13 +35,9 @@ interface IEcosystemRegistry  { // Assuming iOwnership is an interface
     // Public Functions
     function getVersion(bytes32 versionNumber) external view returns (Version memory);
     function getUserEcosystems(address ecosystemsOwner) external view returns (Ecosystem[] memory ecosystems_);
-    function registerOptimizationFacet(uint240 mainVersion, bytes2 optimizationType, bytes memory bytecode, bytes memory params) external;
-    function initiateMigration(address ecosystem) external;
-    function cancelMigration(address ecosystem) external;
     function deployVersion(bytes32 versionNumber, string memory name, uint256 salt, bytes calldata diamondBytecode) external returns (address ecosystemAddress_);
 
     // State Variables (public variables automatically generate getter functions)
     function owner() external view returns (address);
     function versions(bytes32) external view returns (bool exists, uint32 uploadedTimestamp, address diamondDeployAddress); // Note: facetCuts array cannot be returned directly by public mapping getter
-    function ticketExchangeAddress() external view returns (address);
 }

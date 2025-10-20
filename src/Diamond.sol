@@ -33,7 +33,6 @@ contract Diamond is iOwnership {
             ds.slot := position
         }
         // get facet from function selector
-        console.logBytes4(msg.sig);
         address facet = ds.selectorToFacetAndPosition[msg.sig].facetAddress;
         require(facet != address(0), "Diamond: Function does not exist");
         // Execute external function from facet using    delegatecall and return any value.

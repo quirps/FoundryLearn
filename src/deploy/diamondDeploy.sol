@@ -3,7 +3,6 @@ pragma solidity ^0.8.9;
 
 import "../facets/Diamond/IDiamondCut.sol";
 import "./IDiamondDeploy.sol";  
-import "hardhat/console.sol";
 
 contract DiamondDeploy {
     address public registryAddress;
@@ -17,14 +16,11 @@ contract DiamondDeploy {
     }
 
     function deploy(address owner, uint256 _salt, bytes calldata _bytecode, IDiamondCut.FacetCut[] memory _facetCuts) external returns (address diamond_) {
-        console.log(3);
         require(msg.sender == registryAddress,"Must be initiated from the MassDX registry.");
-        console.log(4);
         // Initialize a variable to hold the deployed address
         address deployedAddress; 
 
         require(keccak256(_bytecode) == bytecodeHash, "Bytecode must match that of the Diamond associated with this contract.");
-        console.log(5);
         // ABI encode the constructor parameters
         bytes memory encodedParams = abi.encode(owner, msg.sender, _facetCuts); 
 
@@ -34,7 +30,6 @@ contract DiamondDeploy {
         // Use CREATE2 opcode to deploy the contract with static bytecode
         // Generate a unique salt based on msg.sender
         bytes32 salt = keccak256(abi.encodePacked(msg.sender, _salt, encodedParams)); 
-    console.log(55);
         // The following assembly block deploys the contract using CREATE2 opcode
         assembly {
             deployedAddress := create2(
@@ -48,15 +43,8 @@ contract DiamondDeploy {
                 revert(0, 0)
             }
         }
-        console.log(6);
         return deployedAddress;
     }
 
  
 }
-
-/**
- * We store hash of bytecode.
- * Client deploys bytecode.
- * Checks hash, deploys.
- */

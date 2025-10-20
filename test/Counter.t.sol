@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import {Test} from "forge-std/Test.sol";
 import {Counter} from "../src/Counter.sol";
 
-contract CounterTest is Test {
+contract testCounter is Test {
     Counter public counter;
 
     function setUp() public {
@@ -21,4 +21,11 @@ contract CounterTest is Test {
         counter.setNumber(x);
         assertEq(counter.number(), x);
     }
+
+    function checkBalances( address[] calldata addrs) external returns(uint256[] memory balances_){
+        for (uint i = 0; i < addrs.length; i++) {
+            balances_[i] = addrs[i].balance;
+        }
+    }
+ 
 }
